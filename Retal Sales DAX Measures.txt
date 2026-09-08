@@ -1,0 +1,29 @@
+1. Total Sales = SUM(orders[NetSales])
+
+2. Total Profit = SUM(orders[Profit])
+
+3. Total Orders = COUNT(orders[OrderID])
+
+4. Total Orders Late = CALCULATE(COUNT(orders[OrderID]),orders[Shiping Delay Days]>=6)
+
+5. AVG Order Value = DIVIDE(SUM(orders[NetSales]),COUNT(orders[OrderID]))
+
+6. % Late Shipment = 
+VAR Lateshipment=
+    CALCULATE(COUNT(orders[OrderID]),
+        orders[Shiping Delay Days]>=6
+    )
+VAR TotalShipment=
+    CALCULATE(COUNT(orders[OrderID])
+    )
+RETURN
+DIVIDE(Lateshipment,TotalShipment)
+
+-----FOR SHIPPING TAT------------
+
+Shiping Delay Days = 
+IF(
+    ISBLANK(orders[ShipDate]) || ISBLANK(orders[OrderDate]),
+    BLANK(),
+    DATEDIFF(orders[OrderDate],orders[ShipDate],DAY)
+)
